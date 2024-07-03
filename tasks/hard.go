@@ -69,12 +69,24 @@ func IntersectArr(a []int, b []int) []int {
 func IsAnagram(s1 string, s2 string) bool {
 	s1Runes := []int32(s1)
 	s2Runes := []int32(s2)
-	BubbleSort(s1Runes)
-	BubbleSort(s2Runes)
-
 	if len(s1Runes) != len(s2Runes) {
 		return false
 	}
+
+	for i, value := range s1Runes {
+		if value >= 'A' && value <= 'Z' {
+			s1Runes[i] = s1Runes[i] - 'A' + 'a'
+		}
+	}
+	for i, value := range s2Runes {
+		if value >= 'A' && value <= 'Z' {
+			s2Runes[i] = s2Runes[i] - 'A' + 'a'
+		}
+	}
+
+	BubbleSort(s1Runes)
+	BubbleSort(s2Runes)
+
 	for i := range s1Runes {
 		if s1Runes[i] != s2Runes[i] {
 			return false

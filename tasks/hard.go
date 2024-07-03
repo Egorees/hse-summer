@@ -1,5 +1,7 @@
 package main
 
+import "errors"
+
 func DeleteDuplicates(arr []int) []int {
 	ans := []int{}
 	for i := range arr {
@@ -121,30 +123,27 @@ func BinarySearch(arr []int, elem int) bool {
 	return arr[l] == elem
 }
 
-//HashTable realisation start
+// HashTable realisation start
+const (
+	alphabetSize = 53
+)
 
 type HashTableCell struct {
 	key   string
 	value int
-	exist bool
 }
 
-const (
-	alphabetSize = 29
-)
-
-type HashTable struct {
-	table  []HashTableCell
-	size   int
-	filled int
-	shift  int
+type HashTable struct { // я подумал что для простой реализации перестроение не нужно, очень жаль, если вдруг я ошибся!
+	buckets    [][]HashTableCell
+	size       int
+	bucketsCnt int
 }
 
-func NewHashTable(size int, shift int) *HashTable {
+func NewHashTable(bucketsCnt int) *HashTable {
 	table := new(HashTable)
-	table.size = size
-	table.shift = shift
-	table.table = make([]HashTableCell, size)
+	table.size = 0
+	table.bucketsCnt = bucketsCnt
+	table.buckets = make([][]HashTableCell, bucketsCnt)
 	return table
 }
 
@@ -153,35 +152,50 @@ func (ht *HashTable) getHash(s string) int {
 	for _, sym := range s {
 		ans *= alphabetSize
 		ans += int(sym)
-		ans %= ht.size
+		ans %= ht.bucketsCnt
 	}
 	return ans
 }
 
 func (ht *HashTable) Add(key string, value int) {
 	hash := ht.getHash(key)
-	for i := 0; i < ht.size; i++ {
-		pos := (i*ht.shift + hash) % ht.size
-		if !ht.table[pos].exist {
-			ht.filled++
-			ht.table[pos] = HashTableCell{
-				key:   key,
-				value: value,
-				exist: true,
-			}
+	for i := range ht.buckets[hash] {
+		if ht.buckets[hash][i].key == key {
+			ht.buckets[hash][i].value = value
+			return
 		}
 	}
+	ht.buckets[hash] = append(ht.buckets[hash], HashTableCell{key: key, value: value})
+	ht.size++
 }
 
 func (ht *HashTable) Delete(key string) {
 	hash := ht.getHash(key)
-	for i := 0; i < ht.size; i++ {
-		pos := (i*ht.shift + hash) % ht.size
-		if ht.table[pos].key == key {
-			ht.filled--
-			ht.table[pos].exist = false
+	ind := -1
+	for i := range ht.buckets[hash] {
+		if ht.buckets[hash][i].key == key {
+			ind = i
+			break
 		}
 	}
+	if ind != -1 {
+		ht.buckets[hash] = append(ht.buckets[hash][:ind], ht.buckets[hash][ind+1:]...)
+		ht.size--
+	}
+}
+
+func (ht *HashTable) GetValue(key string) (int, error) {
+	hash := ht.getHash(key)
+	for i := range ht.buckets[hash] {
+		if ht.buckets[hash][i].key == key {
+			return ht.buckets[hash][i].value, nil
+		}
+	}
+	return 0, errors.New("key doesn't exist")
+}
+
+func (ht *HashTable) GetSize() int {
+	return ht.size
 }
 
 //end

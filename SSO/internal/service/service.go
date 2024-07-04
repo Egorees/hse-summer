@@ -1,6 +1,8 @@
 package service
 
-import "SummerHSE/sso/internal/repository"
+import (
+	"SSO/internal/repository"
+)
 
 type Service struct {
 	repo *repository.Repository

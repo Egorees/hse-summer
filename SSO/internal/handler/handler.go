@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"SummerHSE/sso/internal/service"
+	"SSO/internal/service"
 	"fmt"
 	"github.com/valyala/fasthttp"
 )

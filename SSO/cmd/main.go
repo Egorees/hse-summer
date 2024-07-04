@@ -1,26 +1,21 @@
 package main
 
 import (
-	"SummerHSE/sso/internal/handler"
-	"SummerHSE/sso/internal/repository"
-	"SummerHSE/sso/internal/service"
-	"fmt"
+	"SSO/configs"
+	"SSO/internal/handler"
+	"SSO/internal/repository"
+	"SSO/internal/service"
 	"github.com/jmoiron/sqlx"
+	_ "github.com/lib/pq"
 	"github.com/valyala/fasthttp"
 )
 
 func main() {
 
-	var host = "psql"
-	var port = "5432"
-	var user = "psql"
-	var password = "aboba"
-	var dbname = "psql"
-	var sslmode = "disable"
+	DBCfg := configs.ParseDBConfig("configs/DbConfig.yaml")
+	DBInfo := DBCfg.GetDBInfo()
 
-	var dbInfo = fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s", host, port, user, password, dbname, sslmode)
-
-	db, err := sqlx.Open("postgres", dbInfo)
+	db, err := sqlx.Open("postgres", DBInfo)
 	if err != nil {
 		panic(err)
 	}

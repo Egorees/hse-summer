@@ -1,0 +1,23 @@
+version: '2'
+
+services:
+  sso:
+    depends_on:
+      - psql
+    ports:
+      - "8080:8080"
+    build:
+      context: .
+      dockerfile: SSO/Dockerfile
+    restart: always
+    container_name: sso
+  psql:
+    image: postgres:latest
+    container_name: psql
+    ports:
+      - "5436:5432"
+    environment:
+      POSTGRES_USER: "psql"
+      POSTGRES_DB: "psql"
+      POSTGRES_PASSWORD: "aboba"
+    restart: always

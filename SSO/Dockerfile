@@ -1,6 +1,6 @@
-FROM golang:1.22.0
+FROM golang:1.22.4
 
-WORKDIR /app
+WORKDIR /SSO
 
 RUN ls -la
 
@@ -8,6 +8,6 @@ COPY go.mod ./
 COPY go.sum ./
 RUN go mod download
 
-COPY . .
+COPY ../SSO .
 
-CMD ["go", "run", "/app/cmd/main.go"]
+CMD ["go", "run", "/SSO/cmd/main.go"]

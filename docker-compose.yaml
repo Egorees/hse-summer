@@ -1,19 +1,21 @@
 version: '2'
 
 services:
-  sso:
+  accounts:
     depends_on:
       - psql
     ports:
       - "8080:8080"
     build:
       context: .
-      dockerfile: SSO/Dockerfile
+      dockerfile: accounts/Dockerfile
     restart: always
     container_name: sso
   psql:
     image: postgres:latest
     container_name: psql
+    volumes:
+      - ./migrations/20240705063609_init.up.sql:/docker-entrypoint-initdb.d/000001_init.up.sql
     ports:
       - "5436:5432"
     environment:

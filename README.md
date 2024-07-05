@@ -1,4 +1,1 @@
-To build:
-<code>
-docker-compose build 
-</code>
+Чтобы собрать и поднять, прост docker-compose по файлику из корня всего проекта

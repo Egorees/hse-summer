@@ -8,6 +8,7 @@ import (
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 	"github.com/valyala/fasthttp"
+	"log/slog"
 )
 
 func main() {
@@ -21,10 +22,18 @@ func main() {
 	}
 
 	Repo := repository.BuildRepository(db)
+	slog.Info("Repo built")
 	Service := service.BuildService(Repo)
+	slog.Info("Service built")
 	Handler := handler.BuildHandler(Service)
+	slog.Info("Handler built")
 
-	err = fasthttp.ListenAndServe(":8080", Handler)
+	Server := fasthttp.Server{
+		Handler: Handler,
+	}
+
+	slog.Info("Server started and listening at 0.0.0.0:8080")
+	err = Server.ListenAndServe(":8080")
 	if err != nil {
 		panic(err)
 	}

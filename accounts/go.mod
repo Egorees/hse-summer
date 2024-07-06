@@ -1,4 +1,4 @@
-module SSO
+module accounts
 
 go 1.22.4
 

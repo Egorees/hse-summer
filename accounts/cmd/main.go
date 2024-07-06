@@ -1,10 +1,10 @@
 package main
 
 import (
-	"SSO/configs"
-	"SSO/internal/handler"
-	"SSO/internal/repository"
-	"SSO/internal/service"
+	"accounts/configs"
+	"accounts/internal/handler"
+	"accounts/internal/repository"
+	"accounts/internal/service"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 	"github.com/valyala/fasthttp"

@@ -1,9 +1,9 @@
 package handler
 
 import (
-	"SSO/dto"
-	"SSO/internal/repository"
-	"SSO/internal/service"
+	"accounts/dto"
+	"accounts/internal/repository"
+	"accounts/internal/service"
 	"encoding/json"
 	"errors"
 	"github.com/valyala/fasthttp"

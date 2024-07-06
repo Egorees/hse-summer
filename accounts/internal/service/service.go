@@ -1,7 +1,7 @@
 package service
 
 import (
-	"SSO/internal/repository"
+	"accounts/internal/repository"
 	"errors"
 	"log/slog"
 )

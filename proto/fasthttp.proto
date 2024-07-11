@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package proto;
+option go_package = "SummerHSE/proto";
+
+service Accounts {
+  rpc CreateAccount (CreateAccountRequest) returns (Empty) {}
+
+  rpc PatchAccount (PatchAccountRequest) returns (Empty) {}
+
+  rpc ChangeAccount (ChangeAccountRequest) returns (Empty) {}
+
+  rpc DeleteAccount (DeleteAccountRequest) returns (Empty) {}
+
+  rpc GetAccount (GetAccountRequest) returns (GetAccountResponse) {}
+}
+
+message Empty {}
+
+message CreateAccountRequest {
+  string username = 1;
+  int32  amount = 2;
+}
+
+message PatchAccountRequest {
+  string username = 1;
+  int32  amount = 2;
+}
+
+message ChangeAccountRequest {
+  string last_name = 1;
+  string new_name = 2;
+}
+
+message DeleteAccountRequest {
+  string username = 1;
+}
+
+message GetAccountRequest {
+  string username = 1;
+}
+
+message GetAccountResponse {
+  string username = 1;
+  int32 amount = 2;
+}

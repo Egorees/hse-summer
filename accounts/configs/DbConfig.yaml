@@ -1,6 +1,0 @@
-host: "psql"
-port: "5432"
-user: "psql"
-password: "aboba"
-db_name: "psql"
-ssl_mode: "disable"

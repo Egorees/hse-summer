@@ -1,16 +1,28 @@
 version: '2'
 
 services:
-  accounts:
+  accounts_http:
     depends_on:
       - psql
     ports:
       - "8080:8080"
     build:
       context: .
-      dockerfile: accounts/Dockerfile
+      dockerfile: http/accounts/Dockerfile
     restart: always
-    container_name: sso
+    container_name: accounts_http
+
+  accounts_grpc:
+    depends_on:
+      - psql
+    ports:
+      - "8081:8080"
+    build:
+      context: .
+      dockerfile: grpc/server/Dockerfile
+    restart: always
+    container_name: accounts_grpc
+
   psql:
     image: postgres:latest
     container_name: psql
